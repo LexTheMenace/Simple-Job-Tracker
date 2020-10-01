@@ -2,6 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+const routes = require("./routes");
+
 // Initialize Express
 const app = express();
 
@@ -9,12 +11,15 @@ const app = express();
 app.use(express.json());
 
 // DB Config
-const db = require('./config/keys');
+const db = require('./config/keys').mongoURI;
 
 // Connect to Atlas 
 mongoose.connect(db)
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.log());
+
+// Add routes, both API and view
+app.use(routes);
 
 const PORT = process.env.PORT || 5000;
 
